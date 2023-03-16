@@ -13,7 +13,7 @@ RUN apk update && \
     tar -zxvf x-ui-linux-${GET_ARCH}.tar.gz && \
     rm x-ui-linux-${GET_ARCH}.tar.gz && \
     mv x-ui.sh x-ui/x-ui.sh && \
-    chmod +x /usr/local/x-ui/x-ui /usr/local/x-ui/bin/xray-linux-${GET_ARCH} /usr/local/x-ui/x-ui.sh /etc/service/x-ui/run && \
+    chmod +x /usr/local/x-ui/x-ui /usr/local/x-ui/bin/xray-linux-${GET_ARCH} /usr/local/x-ui/x-ui.sh /etc/service/xui/run && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /usr/local/x-ui
