@@ -16,6 +16,5 @@ RUN apk update && \
     chmod +x x-ui/x-ui x-ui/bin/xray-linux-${GET_ARCH} x-ui/x-ui.sh /etc/service/x-ui/run && \
     rm -rf /var/cache/apk/*
 
-
 WORKDIR /usr/local/x-ui
 CMD ["runsvdir", "-P", "/etc/service"]
