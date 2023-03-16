@@ -17,4 +17,4 @@ RUN apk update && \
 
 COPY runit /etc/service
 WORKDIR /usr/local/x-ui
-CMD [ "runsvdir", "-P", "/etc/service"]
+CMD ["runsvdir", "-P", "/etc/service"]
