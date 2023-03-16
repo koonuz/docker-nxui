@@ -16,6 +16,6 @@ RUN apk update && \
     rm -rf /var/cache/apk/*
 
 COPY runit /etc/service
-RUN chmod +x /etc/service/x-ui/run
+RUN chmod +x /etc/service/xui/run
 WORKDIR /usr/local/x-ui
 CMD [ "runsvdir", "-P", "/etc/service"]
