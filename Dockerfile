@@ -1,5 +1,6 @@
 FROM alpine:latest
 COPY x-ui.sh /usr/local/x-ui.sh
+COPY runit /etc/service
 ENV GET_VERSION 0.3.4.0
 ENV GET_ARCH amd64
 RUN apk update && \
@@ -12,9 +13,9 @@ RUN apk update && \
     tar -zxvf x-ui-linux-${GET_ARCH}.tar.gz && \
     rm x-ui-linux-${GET_ARCH}.tar.gz && \
     mv x-ui.sh x-ui/x-ui.sh && \
-    chmod +x x-ui/x-ui x-ui/bin/xray-linux-${GET_ARCH} x-ui/x-ui.sh && \
+    chmod +x x-ui/x-ui x-ui/bin/xray-linux-${GET_ARCH} x-ui/x-ui.sh /etc/service/x-ui/run && \
     rm -rf /var/cache/apk/*
 
-COPY runit /etc/service
+
 WORKDIR /usr/local/x-ui
 CMD ["runsvdir", "-P", "/etc/service"]
