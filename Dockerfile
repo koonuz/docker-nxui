@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM alpine:latest
 COPY x-ui.sh /usr/local/x-ui.sh
 ENV GET_VERSION 0.3.4.0
 ENV GET_ARCH amd64
@@ -6,6 +6,7 @@ RUN apk update && \
     apk add --no-cache tzdata wget tar runit curl socat && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
+    mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2 && \
     cd /usr/local && \
     wget -q https://github.com/FranzKafkaYu/x-ui/releases/download/${GET_VERSION}/x-ui-linux-${GET_ARCH}.tar.gz && \
     tar -zxvf x-ui-linux-${GET_ARCH}.tar.gz && \
