@@ -14,7 +14,7 @@ RUN apk update && \
     mv /root/x-ui /root/xui && \
     mv /root/xui/* /root && \
     chmod +x /root /etc/service/xui/run && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* /root/xui
 
 WORKDIR /root
 CMD ["runsvdir", "-P", "/etc/service"]
