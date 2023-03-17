@@ -14,7 +14,7 @@ RUN apk update && \
     mv /root/x-ui /root/xui && \
     mv /root/xui/* /root && \
     chmod +x /root /etc/service/xui/run && \
-    chown -R root /root && \
+    chown -R root:root /root && \
     rm -rf /var/cache/apk/* /root/xui
 
 WORKDIR /root
