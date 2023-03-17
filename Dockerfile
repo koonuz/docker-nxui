@@ -8,12 +8,11 @@ RUN apk update && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
     mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2 && \
-    cd /usr/local && \
-    wget -q https://github.com/FranzKafkaYu/x-ui/releases/download/${GET_VERSION}/x-ui-linux-${GET_ARCH}.tar.gz && \
-    tar -zxvf x-ui-linux-${GET_ARCH}.tar.gz && \
-    rm x-ui-linux-${GET_ARCH}.tar.gz && \
-    mv x-ui.sh x-ui/x-ui.sh && \
-    chmod +x x-ui/x-ui x-ui/bin/xray-linux-${GET_ARCH} x-ui/x-ui.sh /etc/service/xui/run && \
+    wget -N --no-check-certificate -O /usr/local/x-ui-linux-${GET_ARCH}.tar.gz https://github.com/FranzKafkaYu/x-ui/releases/download/${GET_VERSION}/x-ui-linux-${GET_ARCH}.tar.gz && \
+    tar -zxvf /usr/local/x-ui-linux-${GET_ARCH}.tar.gz && \
+    rm /usr/local/x-ui-linux-${GET_ARCH}.tar.gz && \
+    mv /usr/local/x-ui.sh /usr/local/x-ui/x-ui.sh && \
+    chmod +x /usr/local/x-ui/x-ui /usr/local/x-ui/bin/xray-linux-${GET_ARCH} /usr/local/x-ui/x-ui.sh /etc/service/xui/run && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /usr/local/x-ui
