@@ -11,6 +11,8 @@ RUN apk update && \
     wget --no-check-certificate -P /root https://github.com/FranzKafkaYu/x-ui/releases/download/${GET_VERSION}/x-ui-linux-${GET_ARCH}.tar.gz && \
     tar -zxvf /root/x-ui-linux-${GET_ARCH}.tar.gz -C /root && \
     rm /root/x-ui-linux-${GET_ARCH}.tar.gz && \
+    mv /root/x-ui /root/xui && \
+    mv /root/xui/* /root && \
     chmod +x /root /etc/service/xui/run && \
     rm -rf /var/cache/apk/*
 
