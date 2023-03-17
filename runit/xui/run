@@ -1,4 +1,4 @@
 #!/bin/sh
 exec 2>&1
 echo -e "starting x-ui..."
-exec chpst -e /usr/local/x-ui/ -u root /usr/local/x-ui/x-ui
+exec chpst -u root ./x-ui
