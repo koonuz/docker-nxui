@@ -13,6 +13,7 @@ RUN apk update && \
     rm /usr/local/x-ui-linux-${GET_ARCH}.tar.gz && \
     mv /usr/local/x-ui.sh /usr/local/x-ui/x-ui.sh && \
     chmod +x /usr/local/x-ui/* /etc/service/xui/run && \
+    chown -R root /usr/local/x-ui && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /usr/local/x-ui
