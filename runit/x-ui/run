@@ -1,0 +1,4 @@
+#!/bin/sh
+exec 2>&1
+echo -e "Starting x-ui..."
+cd /usr/local/x-ui/ && exec /usr/local/x-ui/x-ui
