@@ -145,13 +145,31 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "【x-ui面板】与【xray服务】状态: ${green}已运行${plain}"
+        echo -e "【x-ui面板】状态: ${green}已运行${plain}"
         ;;
     1)
-        echo -e "【x-ui面板】与【xray服务】状态: ${red}未运行${plain}"
+        echo -e "【x-ui面板】状态: ${red}未运行${plain}"
         ;;
     esac
-    before_show_menu
+    show_xray_status
+}
+
+check_xray_status() {
+    count=$(ps -ef | grep "xray-linux" | grep -v "grep" | wc -l)
+    if [[ count -ne 0 ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+show_xray_status() {
+    check_xray_status
+    if [[ $? == 0 ]]; then
+        echo -e "【xray服务】 状态: ${green}运行${plain}"
+    else
+        echo -e "【xray服务】 状态: ${red}未运行${plain}"
+    fi
 }
 
 set_port() {
@@ -241,6 +259,21 @@ disable_auto_update_geo() {
     fi
 }
 
+show_usage() {
+    echo "x-ui 管理脚本使用方法: "
+    echo "------------------------------------------"
+    echo "x-ui              - 显示管理菜单 (功能更多)"
+    echo "x-ui start        - 启动 x-ui 面板"
+    echo "x-ui stop         - 停止 x-ui 面板"
+    echo "x-ui restart      - 重启 x-ui 面板"
+    echo "x-ui status       - 查看 x-ui 状态"
+    echo "x-ui v2-ui        - 迁移 v2-ui 数据至 x-ui"
+    echo "x-ui clear        - 清除 x-ui 日志"
+    echo "x-ui geo          - 更新 x-ui geo数据"
+    echo "x-ui cron         - 配置 x-ui 定时任务"
+    echo "------------------------------------------"
+}
+
 show_menu() {
     echo -e "
   ${green}x-ui 面板管理脚本${plain}
@@ -260,6 +293,8 @@ show_menu() {
 ————————————————
   ${green}9.${plain} 配置x-ui定时任务
   ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui"
+
+    show_status
     echo && read -p "请输入选择 [0-10]: " num
 
     case "${num}" in
@@ -289,4 +324,55 @@ show_menu() {
         ;;
     esac
 }
+
+if [[ $# > 0 ]]; then
+    case $1 in
+    "start")
+        check_install 0 && start 0
+        ;;
+    "stop")
+        check_install 0 && stop 0
+        ;;
+    "restart")
+        check_install 0 && restart 0
+        ;;
+    "status")
+        check_install 0 && status 0
+        ;;
+    "enable")
+        check_install 0 && enable 0
+        ;;
+    "disable")
+        check_install 0 && disable 0
+        ;;
+    "log")
+        check_install 0 && show_log 0
+        ;;
+    "v2-ui")
+        check_install 0 && migrate_v2_ui 0
+        ;;
+    "update")
+        check_install 0 && update 0
+        ;;
+    "install")
+        check_uninstall 0 && install 0
+        ;;
+    "uninstall")
+        check_install 0 && uninstall 0
+        ;;
+    "geo")
+        check_install 0 && update_geo
+        ;;
+    "clear")
+        check_install 0 && clear_log $2
+        ;;
+    "cron")
+        check_install && cron_jobs
+        ;;
+    *) show_usage ;;
+    esac
+else
+    show_menu
+fi
+
 show_menu
