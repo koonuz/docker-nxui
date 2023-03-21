@@ -1,9 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
+
+PATH_FOR_GEO_IP='/usr/local/x-ui/bin/geoip.dat'
+PATH_FOR_GEO_SITE='/usr/local/x-ui/bin/geosite.dat'
+URL_FOR_GEO_IP='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat'
+URL_FOR_GEO_SITE='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat'
 
 confirm() {
     if [[ $# > 1 ]]; then
@@ -361,6 +366,50 @@ ssl_cert_issue_by_cloudflare() {
 migrate_v2_ui() {
     /usr/local/x-ui/x-ui v2-ui
     before_show_menu
+}
+
+#update geo data
+update_geo() {
+    #back up first
+    mv ${PATH_FOR_GEO_IP} ${PATH_FOR_GEO_IP}.bak
+    #update data
+    curl -s -L -o ${PATH_FOR_GEO_IP} ${URL_FOR_GEO_IP}
+    if [[ $? -ne 0 ]]; then
+        echo -e "geoip.dat ${red}更新失败${plain}"
+        mv ${PATH_FOR_GEO_IP}.bak ${PATH_FOR_GEO_IP}
+    else
+        echo -e "geoip.dat ${green}更新成功${plain}"
+        rm -f ${PATH_FOR_GEO_IP}.bak
+    fi
+    mv ${PATH_FOR_GEO_SITE} ${PATH_FOR_GEO_SITE}.bak
+    curl -s -L -o ${PATH_FOR_GEO_SITE} ${URL_FOR_GEO_SITE}
+    if [[ $? -ne 0 ]]; then
+        echo -e "geosite.dat ${red}更新失败${plain}"
+        mv ${PATH_FOR_GEO_SITE}.bak ${PATH_FOR_GEO_SITE}
+    else
+        echo "geosite.dat ${green}更新成功${plain}"
+        rm -f ${PATH_FOR_GEO_SITE}.bak
+    fi
+    #restart x-ui
+    sv restart x-ui
+}
+
+enable_auto_update_geo() {
+    echo -e "${yellow}正在开启自动更新geo数据...${plain}"
+    crontab -l >/tmp/crontabTask.tmp
+    echo "00 4 */2 * * x-ui geo > /dev/null" >>/tmp/crontabTask.tmp
+    crontab /tmp/crontabTask.tmp
+    rm /tmp/crontabTask.tmp
+    echo -e "${green}开启自动更新geo数据成功${plain}"
+}
+
+disable_auto_update_geo() {
+    crontab -l | grep -v "x-ui geo" | crontab -
+    if [[ $? -ne 0 ]]; then
+        echo -e "${red}取消geo数据自动更新失败${plain}"
+    else
+        echo -e "${green}取消geo数据自动更新成功${plain}"
+    fi
 }
 
 show_menu() {
