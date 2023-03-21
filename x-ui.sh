@@ -395,20 +395,20 @@ update_geo() {
 }
 
 enable_auto_update_geo() {
-    echo -e "${yellow}正在开启自动更新geo数据...${plain}"
+    echo -e "${yellow}正在开启geo数据自动更新...${plain}"
     crontab -l >/tmp/crontabTask.tmp
     echo "00 4 */2 * * x-ui geo > /dev/null" >>/tmp/crontabTask.tmp
     crontab /tmp/crontabTask.tmp
     rm /tmp/crontabTask.tmp
-    echo -e "${green}开启自动更新geo数据成功${plain}"
+    echo -e "${green}geo数据自动更新开启成功${plain}"
 }
 
 disable_auto_update_geo() {
     crontab -l | grep -v "x-ui geo" | crontab -
     if [[ $? -ne 0 ]]; then
-        echo -e "${red}取消geo数据自动更新失败${plain}"
+        echo -e "${red}关闭geo数据自动更新失败${plain}"
     else
-        echo -e "${green}取消geo数据自动更新成功${plain}"
+        echo -e "${green}关闭geo数据自动更新成功${plain}"
     fi
 }
 
