@@ -145,10 +145,10 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "【x-ui面板】状态: ${green}已运行${plain}"
+        echo -e "【x-ui面板】状态:${green}已运行${plain}"
         ;;
     1)
-        echo -e "【x-ui面板】状态: ${red}未运行${plain}"
+        echo -e "【x-ui面板】状态:${red}未运行${plain}"
         ;;
     esac
     show_xray_status
@@ -166,9 +166,9 @@ check_xray_status() {
 show_xray_status() {
     check_xray_status
     if [[ $? == 0 ]]; then
-        echo -e "【xray服务】 状态: ${green}运行${plain}"
+        echo -e "【xray服务】状态:${green}已运行${plain}"
     else
-        echo -e "【xray服务】 状态: ${red}未运行${plain}"
+        echo -e "【xray服务】状态:${red}未运行${plain}"
     fi
 }
 
