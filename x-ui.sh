@@ -140,7 +140,13 @@ check_status() {
     fi
 }
 
+check_version() {
+    version=$(/usr/local/x-ui/x-ui setting -show | grep 'version' | awk '{print $2}' | cut -d ":" -f1)
+    echo -e " x-ui 当前版本:${green}$version${plain}"
+}
+
 show_status() {
+    check_version
     check_status
     case $? in
     0)
