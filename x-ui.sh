@@ -353,21 +353,21 @@ show_menu() {
 - https://github.com/FranzKafkaYu/x-ui -
   ${green}0.${plain} 退出脚本
 ————————————————
-  ${green}1.${plain} 重置【x-ui面板】用户名和密码
-  ${green}2.${plain} 重置【x-ui面板】所有设置
-  ${green}3.${plain} 设置【x-ui面板】访问端口
-  ${green}4.${plain} 查看当前【x-ui面板】所有设置
+  ${green}1.${plain} 重置 x-ui 面板的用户名和密码
+  ${green}2.${plain} 重置 x-ui 面板的所有设置
+  ${green}3.${plain} 设置 x-ui 面板的访问端口
+  ${green}4.${plain} 查看当前 x-ui 面板的所有设置
 ————————————————
-  ${green}5.${plain} 启动【x-ui面板】与【xray服务】进程
-  ${green}6.${plain} 停止【x-ui面板】与【xray服务】进程
-  ${green}7.${plain} 重启【x-ui面板】与【xray服务】进程
-  ${green}8.${plain} 查看【x-ui面板】与【xray服务】状态
+  ${green}5.${plain} 启动 x-ui 进程
+  ${green}6.${plain} 停止 x-ui 进程
+  ${green}7.${plain} 重启 x-ui 进程
+  ${green}8.${plain} 查看 x-ui 状态
 ————————————————
   ${green}9.${plain} 配置x-ui定时任务
   ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui"
 
     show_status
-    echo && read -p "请输入选择 [0-10]: " num
+    echo && read -p "请输入选择 [0-9]: " num
 
     case "${num}" in
         0) exit 0
@@ -386,13 +386,11 @@ show_menu() {
         ;;
         7) restart
         ;;
-        8) show_status
+        8) cron_jobs
         ;;
-        9) cron_jobs
+        9) migrate_v2_ui
         ;;
-        10) migrate_v2_ui
-        ;;
-        *) echo -e "${red}请输入正确的数字 [0-10]${plain}"
+        *) echo -e "${red}请输入正确的数字 [0-9]${plain}"
         ;;
     esac
 }
@@ -409,7 +407,7 @@ if [[ $# > 0 ]]; then
         restart 0
         ;;
     "status")
-        status 0
+        show_status 0
         ;;
     "v2-ui")
         migrate_v2_ui 0
