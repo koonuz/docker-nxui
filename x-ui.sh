@@ -414,6 +414,9 @@ if [[ $# > 0 ]]; then
     "status")
         show_status 0
         ;;
+    "config")
+        check_config 0
+        ;;
     "v2-ui")
         migrate_v2_ui 0
         ;;
