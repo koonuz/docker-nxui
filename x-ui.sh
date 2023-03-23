@@ -85,7 +85,7 @@ start() {
         echo -e "${yellow}x-ui 进程${plain} 与 ${yellow}xray 服务${plain}已运行，无需再次启动!如需${green}重启x-ui进程${plain}，请${green}选择重启${plain}!"
     else
         sv start x-ui
-        sleep 1
+        sleep 2
         check_status
         if [[ $? == 0 ]]; then
             echo -e "${green}x-ui 进程 与 xray 服务启动成功!${plain}"
@@ -106,7 +106,7 @@ stop() {
         echo -e "${yellow}x-ui 进程${plain} 与 ${yellow}xray 服务${plain}已停止运行，无需再次停止!"
     else
         sv stop x-ui
-        sleep 1
+        sleep 2
         check_status
         if [[ $? == 1 ]]; then
             echo -e "${green}x-ui 进程 与 xray 服务停止成功!${plain}"
@@ -122,7 +122,7 @@ stop() {
 
 restart() {
     sv restart x-ui
-    sleep 1
+    sleep 2
     check_status
     if [[ $? == 0 ]]; then
         echo -e "${green}x-ui 进程 与 xray 服务重启成功!${plain}"
