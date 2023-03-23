@@ -202,8 +202,10 @@ migrate_v2_ui() {
 cron_jobs() {
     clear
     echo -e "
-  ${green}定时任务管理${plain}
+  ${green}x-ui 定时任务管理${plain}
+————————————————
   ${green}0.${plain}  返回主菜单
+————————————————
   ${green}1.${plain}  开启自动更新geo数据
   ${green}2.${plain}  关闭自动更新geo数据
   ${green}3.${plain}  开启自动清除xray日志
@@ -231,6 +233,7 @@ update_geo() {
     #back up first
     mv ${PATH_FOR_GEO_IP} ${PATH_FOR_GEO_IP}.bak
     #update data
+    echo -e "${yello}正在下载geoip最新数据并进行更新...${plain}"
     curl -s -L -o ${PATH_FOR_GEO_IP} ${URL_FOR_GEO_IP}
     if [[ $? -ne 0 ]]; then
         echo -e "geoip.dat ${red}更新失败${plain}"
@@ -240,6 +243,7 @@ update_geo() {
         rm -f ${PATH_FOR_GEO_IP}.bak
     fi
     mv ${PATH_FOR_GEO_SITE} ${PATH_FOR_GEO_SITE}.bak
+    echo -e "${yello}正在下载geosite最新数据并进行更新...${plain}"
     curl -s -L -o ${PATH_FOR_GEO_SITE} ${URL_FOR_GEO_SITE}
     if [[ $? -ne 0 ]]; then
         echo -e "geosite.dat ${red}更新失败${plain}"
@@ -249,6 +253,7 @@ update_geo() {
         rm -f ${PATH_FOR_GEO_SITE}.bak
     fi
     #restart x-ui
+    echo -e "${yello}即将重启 x-ui 进程...${plain}"
     restart
 }
 
@@ -339,10 +344,11 @@ show_usage() {
     echo "x-ui stop         - 停止 x-ui 面板"
     echo "x-ui restart      - 重启 x-ui 面板"
     echo "x-ui status       - 查看 x-ui 状态"
+    echo "x-ui config       - 查看 x-ui 配置"
     echo "x-ui v2-ui        - 迁移 v2-ui 数据至 x-ui"
     echo "x-ui clear        - 清除 x-ui 日志"
     echo "x-ui geo          - 更新 x-ui geo数据"
-    echo "x-ui cron         - 配置 x-ui 定时任务"
+    echo "x-ui cron         - 管理 x-ui 定时任务"
     echo "------------------------------------------"
 }
 
@@ -362,8 +368,9 @@ show_menu() {
   ${green}6.${plain} 停止 x-ui 进程
   ${green}7.${plain} 重启 x-ui 进程
 ————————————————
-  ${green}8.${plain} 配置x-ui定时任务
-  ${green}9.${plain} 迁移 v2-ui 账号数据至 x-ui
+  ${green}8.${plain} 更新 x-ui geo数据
+  ${green}9.${plain} 管理 x-ui 定时任务
+  ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui
 ———————————————— "
     show_status
     echo && read -p "请输入选择 [0-9]: " num
@@ -385,11 +392,13 @@ show_menu() {
         ;;
         7) restart
         ;;
-        8) cron_jobs
+        8) update_geo
         ;;
-        9) migrate_v2_ui
+        9) cron_jobs
         ;;
-        *) echo -e "${red}请输入正确的数字 [0-9]${plain}"
+        10) migrate_v2_ui
+        ;;
+        *) echo -e "${red}请输入正确的数字 [0-10]${plain}"
         ;;
     esac
 }
