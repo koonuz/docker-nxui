@@ -30,7 +30,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "是否重启【x-ui面板】？重启【x-ui面板】也会一并重启【xray服务】" "y"
+    confirm "是否重启 x-ui 进程？重启 x-ui 进程也会一并重启 xray 服务" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -52,12 +52,12 @@ reset_user() {
         return 0
     fi
     /usr/local/x-ui/x-ui setting -username admin -password admin
-    echo -e "用户名和密码已重置为 ${green}admin${plain}，现在请重启【x-ui面板】"
+    echo -e "用户名和密码已重置为 ${green}admin${plain}，现在请重启 x-ui 进程"
     confirm_restart
 }
 
 reset_config() {
-    confirm "确定要重置所有关于【x-ui面板】的设置吗？账号数据不会丢失，用户名和密码不会改变" "n"
+    confirm "确定要重置所有关于 x-ui 进程的设置吗？账号数据不会丢失，用户名和密码不会改变" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -65,14 +65,14 @@ reset_config() {
         return 0
     fi
     /usr/local/x-ui/x-ui setting -reset
-    echo -e "所有关于【x-ui面板】的设置已重置为默认值，现在请重启【x-ui面板】，并使用默认的 ${green}54321${plain} 端口进行访问"
+    echo -e "所有关于 x-ui 进程的设置已重置为默认值，现在请重启 x-ui 进程，并使用默认的 ${green}54321${plain} 端口进行访问"
     confirm_restart
 }
 
 check_config() {
     info=$(/usr/local/x-ui/x-ui setting -show true)
     if [[ $? != 0 ]]; then
-        echo -n "无法获取当前关于【x-ui面板】的设置，请检查日志"
+        echo -n "无法获取当前关于 x-ui 进程的设置，请检查日志"
         show_menu
     fi
     echo -e "${info}"
@@ -82,13 +82,13 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        echo -e "${yellow}【x-ui面板】与【xray服务】已运行，无需再次启动!如需重启x-ui进程，请选择重启!${plain}"
+        echo -e "${yellow} x-ui 进程与 xray 服务已运行，无需再次启动!如需重启x-ui进程，请选择重启!${plain}"
     else
         sv start x-ui
         sleep 2
         check_status
         if [[ $? == 0 ]]; then
-            echo -e "${green}【x-ui面板】与【xray服务】启动成功!${plain}"
+            echo -e "${green} x-ui 进程与 xray 服务启动成功!${plain}"
         else
             echo -e "${red}启动失败，可能是因为启动时间超过了两秒，请稍后查看日志信息${plain}"
         fi
@@ -103,13 +103,13 @@ stop() {
     check_status
     if [[ $? == 1 ]]; then
         echo ""
-        echo -e "${yellow}【x-ui面板】与【xray服务】已停止运行，无需再次停止!${plain}"
+        echo -e "${yellow} x-ui 进程与 xray 服务已停止运行，无需再次停止!${plain}"
     else
         sv stop x-ui
         sleep 2
         check_status
         if [[ $? == 1 ]]; then
-            echo -e "${green} 【x-ui面板】与【xray服务】停止成功!${plain}"
+            echo -e "${green}  x-ui 进程与 xray 服务停止成功!${plain}"
         else
             echo -e "${red}停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息${plain}"
         fi
@@ -125,7 +125,7 @@ restart() {
     sleep 2
     check_status
     if [[ $? == 0 ]]; then
-        echo -e "${green}【x-ui面板】与【xray服务】重启成功!${plain}"
+        echo -e "${green} x-ui 进程与 xray 服务重启成功!${plain}"
     else
         echo -e "${red}重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息${plain}"
     fi
@@ -148,10 +148,10 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "【x-ui面板】状态:${green}已运行${plain}"
+        echo -e " x-ui 进程状态:${green}已运行${plain}"
         ;;
     1)
-        echo -e "【x-ui面板】状态:${red}未运行${plain}"
+        echo -e " x-ui 进程状态:${red}未运行${plain}"
         ;;
     esac
     show_xray_status
@@ -169,9 +169,9 @@ check_xray_status() {
 show_xray_status() {
     check_xray_status
     if [[ $? == 0 ]]; then
-        echo -e "【xray服务】状态:${green}已运行${plain}"
+        echo -e " xray 服务状态:${green}已运行${plain}"
     else
-        echo -e "【xray服务】状态:${red}未运行${plain}"
+        echo -e " xray 服务状态:${red}未运行${plain}"
     fi
 }
 
@@ -358,9 +358,9 @@ show_menu() {
   ${green}3.${plain} 设置 x-ui 面板的访问端口
   ${green}4.${plain} 查看当前 x-ui 面板的所有设置
 ————————————————
-  ${green}5.${plain} 启动 x-ui 进程
-  ${green}6.${plain} 停止 x-ui 进程
-  ${green}7.${plain} 重启 x-ui 进程
+  ${green}5.${plain} 启动  x-ui 进程
+  ${green}6.${plain} 停止  x-ui 进程
+  ${green}7.${plain} 重启  x-ui 进程
   ${green}8.${plain} 查看 x-ui 状态
 ————————————————
   ${green}9.${plain} 配置x-ui定时任务
