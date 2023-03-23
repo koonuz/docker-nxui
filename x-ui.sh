@@ -255,7 +255,7 @@ update_geo() {
         rm -f ${PATH_FOR_GEO_SITE}.bak
     fi
     #restart x-ui
-    sv restart x-ui
+    restart
 }
 
 enable_auto_update_geo() {
