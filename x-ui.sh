@@ -211,24 +211,18 @@ cron_jobs() {
   "
     echo && read -p "请输入选择 [0-4]: " num
     case "${num}" in
-    0)
-        show_menu
-        ;;
-    1)
-        enable_auto_update_geo
-        ;;
-    2)
-        disable_auto_update_geo
-        ;;
-    3)
-        enable_auto_clear_log
-        ;;
-    4)
-        disable_auto_clear_log
-        ;;
-    *)
-        echo -e "${red}请输入正确的数字 [0-4]${plain}"
-        ;;
+    0) show_menu
+    ;;
+    1) enable_auto_update_geo
+    ;;
+    2) disable_auto_update_geo
+    ;;
+    3) enable_auto_clear_log
+    ;;
+    4) disable_auto_clear_log
+    ;;
+    *) echo -e "${red}请输入正确的数字 [0-4]${plain}"
+    ;;
     esac
 }
 
