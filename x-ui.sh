@@ -5,6 +5,9 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
+#consts for log check and clear,unit:M
+declare -r DEFAULT_LOG_FILE_DELETE_TRIGGER=35
+
 PATH_FOR_GEO_IP='/usr/local/x-ui/bin/geoip.dat'
 PATH_FOR_GEO_SITE='/usr/local/x-ui/bin/geosite.dat'
 URL_FOR_GEO_IP='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat'
@@ -197,8 +200,10 @@ cron_jobs() {
   ${green}0.${plain}  返回主菜单
   ${green}1.${plain}  开启自动更新geo数据
   ${green}2.${plain}  关闭自动更新geo数据
+  ${green}3.${plain}  开启自动清除xray日志
+  ${green}4.${plain}  关闭自动清除xray日志
   "
-    echo && read -p "请输入选择 [0-2]: " num
+    echo && read -p "请输入选择 [0-4]: " num
     case "${num}" in
     0)
         show_menu
@@ -209,8 +214,14 @@ cron_jobs() {
     2)
         disable_auto_update_geo
         ;;
+    3)
+        enable_auto_clear_log
+        ;;
+    4)
+        disable_auto_clear_log
+        ;;
     *)
-        echo -e "${red}请输入正确的数字 [0-2]${plain}"
+        echo -e "${red}请输入正确的数字 [0-4]${plain}"
         ;;
     esac
 }
@@ -256,6 +267,67 @@ disable_auto_update_geo() {
         echo -e "${red}关闭geo数据自动更新失败${plain}"
     else
         echo -e "${green}关闭geo数据自动更新成功${plain}"
+    fi
+}
+
+#clear xray log,need enable log in config template
+#here we need input an absolute path for log
+clear_log() {
+    echo -e "${yello}设置清除xray日志...${plain}"
+    local filePath=''
+    read -p "请输入日志文件路径": filePath
+    if [[ $# -gt 0 ]]; then
+        filePath=$1
+    else
+        echo -e "${red}输入的日志文件路径无效,脚本将自动退出...${plain}"
+        exit 1
+    fi
+    echo -e "你输入的日志路径为:${yello}${filePath}${plain}"
+    if [[ ! -f ${filePath} ]]; then
+        echo -e "${red}清除xray日志文件失败${plain},日志路径${yello}${filePath}${plain}${red}不存在${plain},请重新确认正确的日志路径..."
+        exit 1
+    fi
+    fileSize=$(ls -la ${filePath} --block-size=M | awk '{print $5}' | awk -F 'M' '{print$1}')
+    if [[ ${fileSize} -gt ${DEFAULT_LOG_FILE_DELETE_TRIGGER} ]]; then
+        rm $1
+        if [[ $? -ne 0 ]]; then
+            echo -e "${red}清除xray日志文件:${filePath}失败${plain}"
+        else
+            echo -e "${green}清除xray日志文件:${filePath}成功${plain}"
+            sv restart x-ui
+        fi
+    else
+        echo -e "当前日志大小为${yello}${fileSize}${plain}M,小于${red}${DEFAULT_LOG_FILE_DELETE_TRIGGER}${plain}M,日志将不会被清除..."
+    fi
+}
+
+#enable auto delete log，need file path as
+enable_auto_clear_log() {
+    echo -e "${yello}设置定时清除xray日志...${plain}"
+    local filePath=''
+    read -p "请输入日志文件路径": filePath
+    if [[ ! -n ${filePath} ]]; then
+        echo -e "${red}输入的日志文件路径无效,脚本将自动退出...${plain}"
+        exit 1
+    fi
+    if [[ ! -f ${filePath} ]]; then
+        echo -e "日志路径${yello}${filePath}${plain}${red}不存在${plain},${red}开启自动清除xray日志失败${plain}"
+        exit 1
+    fi
+    crontab -l >/tmp/crontabTask.tmp
+    echo "30 4 */2 * * x-ui clear ${filePath} > /dev/null" >>/tmp/crontabTask.tmp
+    crontab /tmp/crontabTask.tmp
+    rm /tmp/crontabTask.tmp
+    echo -e "${green}开启自动清除xray日志成功${plain}"
+}
+
+#disable auto dlete log
+disable_auto_clear_log() {
+    crontab -l | grep -v "x-ui clear" | crontab -
+    if [[ $? -ne 0 ]]; then
+        echo -e "${red}关闭自动清除xray日志失败${plain}"
+    else
+        echo -e "${green}关闭自动清除xray日志成功${plain}"
     fi
 }
 
