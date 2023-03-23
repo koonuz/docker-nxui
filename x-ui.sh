@@ -210,7 +210,7 @@ cron_jobs() {
         disable_auto_update_geo
         ;;
     *)
-        LOGE "请输入正确的数字 [0-2]"
+        echo -e "${red}请输入正确的数字 [0-2]${plain}"
         ;;
     esac
 }
