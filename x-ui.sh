@@ -70,12 +70,8 @@ reset_config() {
 }
 
 check_config() {
-    info=$(/usr/local/x-ui/x-ui setting -show true)
-    echo -e "${info}"
-    if [[ $? != 0 ]]; then
-        echo -e "${red}无法获取当前关于 x-ui 面板的设置${plain}，请检查日志..."
-        show_menu
-    fi
+    /usr/local/x-ui/x-ui setting -show
+    before_show_menu
 }
 
 start() {
