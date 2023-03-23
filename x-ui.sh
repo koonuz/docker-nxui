@@ -65,12 +65,13 @@ reset_config() {
         return 0
     fi
     /usr/local/x-ui/x-ui setting -reset
-    echo -e "所有关于 x-ui 面板的设置已重置为默认值，现在请${yello}重启 x-ui 进程${plain}，并使用默认的${green}54321${plain} 端口进行访问"
+    echo -e "所有关于 x-ui 面板的设置已重置为默认值，现在请${yello}重启 x-ui 进程${plain}，并使用默认的${green}54321${plain}端口进行访问"
     confirm_restart
 }
 
 check_config() {
     info=$(/usr/local/x-ui/x-ui setting -show true)
+    sleep 1
     if [[ $? != 0 ]]; then
         echo -e "${red}无法获取当前关于 x-ui 面板的设置${plain}，请检查日志..."
         show_menu
@@ -82,13 +83,13 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        echo -e "${yellow}x-ui 进程${plain}与 ${yellow}xray 服务${plain}已运行，无需再次启动!如需${green}重启x-ui进程${plain}，请${green}选择重启${plain}!"
+        echo -e "${yellow}x-ui 进程${plain} 与 ${yellow}xray 服务${plain}已运行，无需再次启动!如需${green}重启x-ui进程${plain}，请${green}选择重启${plain}!"
     else
         sv start x-ui
-        sleep 2
+        sleep 1
         check_status
         if [[ $? == 0 ]]; then
-            echo -e "${green} x-ui 进程与 xray 服务启动成功!${plain}"
+            echo -e "${green}x-ui 进程 与 xray 服务启动成功!${plain}"
         else
             echo -e "${red}启动失败，可能是因为启动时间超过了两秒，稍后请查看日志信息...${plain}"
         fi
@@ -103,13 +104,13 @@ stop() {
     check_status
     if [[ $? == 1 ]]; then
         echo ""
-        echo -e "${yellow}x-ui 进程${plain}与 ${yellow}xray 服务${plain}已停止运行，无需再次停止!"
+        echo -e "${yellow}x-ui 进程${plain} 与 ${yellow}xray 服务${plain}已停止运行，无需再次停止!"
     else
         sv stop x-ui
-        sleep 2
+        sleep 1
         check_status
         if [[ $? == 1 ]]; then
-            echo -e "${green} x-ui 进程与 xray 服务停止成功!${plain}"
+            echo -e "${green}x-ui 进程 与 xray 服务停止成功!${plain}"
         else
             echo -e "${red}停止失败，可能是因为停止时间超过了两秒，稍后请查看日志信息...${plain}"
         fi
@@ -122,10 +123,10 @@ stop() {
 
 restart() {
     sv restart x-ui
-    sleep 2
+    sleep 1
     check_status
     if [[ $? == 0 ]]; then
-        echo -e "${green} x-ui 进程与 xray 服务重启成功!${plain}"
+        echo -e "${green}x-ui 进程 与 xray 服务重启成功!${plain}"
     else
         echo -e "${red}重启失败，可能是因为启动时间超过了两秒，稍后请查看日志信息...${plain}"
     fi
@@ -182,7 +183,7 @@ set_port() {
         before_show_menu
     else
         /usr/local/x-ui/x-ui setting -port ${port}
-        echo -e "设置端口完毕，现在请${yellow}重启面板${plain}，并使用新设置的端口${green}${port}${plain} 访问面板"
+        echo -e "端口设置完毕，现在请${yellow}重启面板${plain}，并使用新设置的${green}${port}${plain}端口访问面板"
         confirm_restart
     fi
 }
