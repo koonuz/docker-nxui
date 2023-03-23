@@ -364,11 +364,10 @@ show_menu() {
   ${green}8.${plain} 查看 x-ui 状态
 ————————————————
   ${green}9.${plain} 配置x-ui定时任务
-  ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui"
-————————————————
+  ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui
+———————————————— "
     show_status
-————————————————
-    echo && read -p "请输入选择 [0-9]: " num
+    echo && read -p "请输入选择 [0-10]: " num
 
     case "${num}" in
         0) exit 0
