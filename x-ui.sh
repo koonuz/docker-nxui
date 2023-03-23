@@ -198,7 +198,7 @@ cron_jobs() {
   ${green}1.${plain}  开启自动更新geo数据
   ${green}2.${plain}  关闭自动更新geo数据
   "
-    echo && read -p "请输入选择 [0-4]: " num
+    echo && read -p "请输入选择 [0-2]: " num
     case "${num}" in
     0)
         show_menu
@@ -247,7 +247,7 @@ enable_auto_update_geo() {
     echo "00 4 */2 * * x-ui geo > /dev/null" >>/tmp/crontabTask.tmp
     crontab /tmp/crontabTask.tmp
     rm /tmp/crontabTask.tmp
-    echo -e "${green}geo数据自动更新开启成功${plain}"
+    echo -e "${green}开启geo数据自动更新成功${plain}"
 }
 
 disable_auto_update_geo() {
@@ -328,46 +328,28 @@ show_menu() {
 if [[ $# > 0 ]]; then
     case $1 in
     "start")
-        check_install 0 && start 0
+        start 0
         ;;
     "stop")
-        check_install 0 && stop 0
+        stop 0
         ;;
     "restart")
-        check_install 0 && restart 0
+        restart 0
         ;;
     "status")
-        check_install 0 && status 0
-        ;;
-    "enable")
-        check_install 0 && enable 0
-        ;;
-    "disable")
-        check_install 0 && disable 0
-        ;;
-    "log")
-        check_install 0 && show_log 0
+        status 0
         ;;
     "v2-ui")
-        check_install 0 && migrate_v2_ui 0
-        ;;
-    "update")
-        check_install 0 && update 0
-        ;;
-    "install")
-        check_uninstall 0 && install 0
-        ;;
-    "uninstall")
-        check_install 0 && uninstall 0
+        migrate_v2_ui 0
         ;;
     "geo")
-        check_install 0 && update_geo
+        update_geo
         ;;
     "clear")
-        check_install 0 && clear_log $2
+        clear_log $2
         ;;
     "cron")
-        check_install && cron_jobs
+        cron_jobs
         ;;
     *) show_usage ;;
     esac
