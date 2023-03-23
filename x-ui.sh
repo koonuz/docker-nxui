@@ -71,12 +71,11 @@ reset_config() {
 
 check_config() {
     info=$(/usr/local/x-ui/x-ui setting -show true)
-    sleep 1
+    echo -e "${info}"
     if [[ $? != 0 ]]; then
         echo -e "${red}无法获取当前关于 x-ui 面板的设置${plain}，请检查日志..."
         show_menu
     fi
-    echo -e "${info}"
 }
 
 start() {
@@ -362,13 +361,12 @@ show_menu() {
   ${green}5.${plain} 启动 x-ui 进程
   ${green}6.${plain} 停止 x-ui 进程
   ${green}7.${plain} 重启 x-ui 进程
-  ${green}8.${plain} 查看 x-ui 状态
 ————————————————
-  ${green}9.${plain} 配置x-ui定时任务
-  ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui
+  ${green}8.${plain} 配置x-ui定时任务
+  ${green}9.${plain} 迁移 v2-ui 账号数据至 x-ui
 ———————————————— "
     show_status
-    echo && read -p "请输入选择 [0-10]: " num
+    echo && read -p "请输入选择 [0-9]: " num
 
     case "${num}" in
         0) exit 0
@@ -387,11 +385,9 @@ show_menu() {
         ;;
         7) restart
         ;;
-        8) show_status
+        8) cron_jobs
         ;;
-        9) cron_jobs
-        ;;
-        10) migrate_v2_ui
+        9) migrate_v2_ui
         ;;
         *) echo -e "${red}请输入正确的数字 [0-9]${plain}"
         ;;
