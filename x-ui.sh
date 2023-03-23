@@ -70,8 +70,12 @@ reset_config() {
 }
 
 check_config() {
-    /usr/local/x-ui/x-ui setting -show
-    before_show_menu
+    info=$(/usr/local/x-ui/x-ui setting -show true)
+    if [[ $? != 0 ]]; then
+        echo -e "${red}无法获取当前关于 x-ui 面板的设置${plain}，请检查日志..."
+        show_menu
+    fi
+    echo -e "${info}"
 }
 
 start() {
@@ -142,7 +146,7 @@ check_status() {
 
 check_version() {
     version=$(/usr/local/x-ui/x-ui setting -show | grep 'version' | awk '{print $2}' | cut -d ":" -f1)
-    echo -e " x-ui 当前版本:${green}$version${plain}"
+    echo -e " x-ui 运行版本:${green}$version${plain}"
 }
 
 show_status() {
@@ -427,3 +431,5 @@ if [[ $# > 0 ]]; then
 else
     show_menu
 fi
+
+show_menu
