@@ -1,6 +1,6 @@
 FROM alpine:latest
 COPY runit /etc/service
-COPY x-ui.sh /usr/local/x-ui.sh
+COPY x-ui.sh /usr/bin/x-ui
 ENV GET_VERSION 0.3.4.0
 ENV GET_ARCH amd64
 RUN apk update && \
