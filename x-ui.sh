@@ -362,7 +362,7 @@ show_menu() {
   ${green}1.${plain} 重置 x-ui 面板的用户名和密码
   ${green}2.${plain} 重置 x-ui 面板的所有设置
   ${green}3.${plain} 设置 x-ui 面板的访问端口
-  ${green}4.${plain} 查看当前 x-ui 面板的所有设置
+  ${green}4.${plain} 查看 x-ui 面板的所有设置
 ————————————————
   ${green}5.${plain} 启动 x-ui 进程
   ${green}6.${plain} 停止 x-ui 进程
