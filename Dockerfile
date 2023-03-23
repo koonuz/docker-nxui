@@ -11,7 +11,7 @@ RUN apk update && \
     wget -q -P /usr/local https://github.com/FranzKafkaYu/x-ui/releases/download/${GET_VERSION}/x-ui-linux-${GET_ARCH}.tar.gz && \
     tar -zxvf /usr/local/x-ui-linux-${GET_ARCH}.tar.gz -C /usr/local && \
     rm /usr/local/x-ui-linux-${GET_ARCH}.tar.gz /usr/local/x-ui/x-ui.service /usr/local/x-ui/x-ui.sh && \
-    chmod +x /usr/local/x-ui/* /etc/service/x-ui/run && \
+    chmod +x /usr/local/x-ui/ /etc/service/x-ui/run /usr/bin/x-ui && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /usr/local/x-ui
