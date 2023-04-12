@@ -157,9 +157,9 @@ check_xray_version() {
 check_update() {
     last_version=$(curl -Ls "https://api.github.com/repos/FranzKafkaYu/x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     if [[ "$last_version" == "$version" ]]; then
-      echo -e " 当前 x-ui 已是${yellow}最新版本${plain},无需进行更新..."
+      echo -e " 当前 x-ui 已是${yellow}最新版本${plain}，无需进行更新..."
     else
-      echo -e " 当前 x-ui 版本:${green}${version}${plain},检测到最新版本:${yellow}${last_version}${plain},请手动进行更新..."
+      echo -e " 当前 x-ui 版本为：${green}${version}${plain}，检测到最新版本为：${yellow}${last_version}${plain}，请手动进行更新..."
     fi
     before_show_menu
 }
@@ -170,10 +170,10 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e " x-ui 进程状态:${yellow}已运行${plain}"
+        echo -e " x-ui 进程状态：${green}已运行${plain}"
         ;;
     1)
-        echo -e " x-ui 进程状态:${red}未运行${plain}"
+        echo -e " x-ui 进程状态：${red}未运行${plain}"
         ;;
     esac
 }
@@ -293,27 +293,27 @@ clear_log() {
     if [[ ${fileSize} -gt ${DEFAULT_LOG_FILE_DELETE_TRIGGER} ]]; then
         rm $1
         if [[ $? -ne 0 ]]; then
-            echo -e "${red}清除xray日志文件:${filePath}失败${plain}"
+            echo -e "${red}清除xray日志文件：${filePath}失败${plain}"
         else
-            echo -e "${green}清除xray日志文件:${filePath}成功${plain}"
+            echo -e "${green}清除xray日志文件：${filePath}成功${plain}"
             sv restart x-ui
         fi
     else
-        echo -e "当前日志大小为${yello}${fileSize}${plain}M,小于${red}${DEFAULT_LOG_FILE_DELETE_TRIGGER}${plain}M,日志将不会被清除..."
+        echo -e "当前日志大小为${yello}${fileSize}${plain}M，小于${red}${DEFAULT_LOG_FILE_DELETE_TRIGGER}${plain}M，日志将不会被清除..."
     fi
 }
 
-#enable auto delete log，need file path as
+#enable auto delete log,need file path as
 enable_auto_clear_log() {
     echo -e "${yello}设置定时清除xray日志...${plain}"
     local filePath=''
     read -p "请输入日志文件路径": filePath
     if [[ ! -n ${filePath} ]]; then
-        echo -e "${red}输入的日志文件路径无效,脚本将自动退出...${plain}"
+        echo -e "${red}输入的日志文件路径无效，脚本将自动退出...${plain}"
         exit 1
     fi
     if [[ ! -f ${filePath} ]]; then
-        echo -e "日志路径${yello}${filePath}${plain}${red}不存在${plain},${red}开启自动清除xray日志失败${plain}"
+        echo -e "日志路径${yello}${filePath}${plain}${red}不存在${plain}，${red}开启自动清除xray日志失败${plain}"
         exit 1
     fi
     crontab -l >/tmp/crontabTask.tmp
@@ -367,9 +367,8 @@ show_menu() {
 ————————————————
   ${green}8.${plain} 更新 x-ui geo数据
   ${green}9.${plain} 管理 x-ui 定时任务
-  ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui
-———————————————— 
-  ${green}11.${plain} 检查 x-ui 最新版本
+  ${green}10.${plain} 检查 x-ui 版本更新
+  ${green}11.${plain} 迁移 v2-ui 数据至 x-ui
 ———————————————— "
     show_status
     echo && read -p "请输入选择 [0-11]: " num
@@ -395,11 +394,11 @@ show_menu() {
         ;;
         9) cron_jobs
         ;;
-        10) migrate_v2_ui
+        10) check_update
         ;;
-        11) check_update
+        11) migrate_v2_ui
         ;;
-        *) echo -e "${red}请输入正确的数字 [0-11]${plain}"
+        *) echo -e "${red}请输入正确的数字【0-11】${plain}"
         ;;
     esac
 }
@@ -433,7 +432,8 @@ if [[ $# > 0 ]]; then
     "cron")
         cron_jobs
         ;;
-    *) show_usage ;;
+    *) show_usage 
+        ;;
     esac
 else
     show_menu
