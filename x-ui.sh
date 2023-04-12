@@ -157,10 +157,11 @@ check_xray_version() {
 check_update() {
     last_version=$(curl -Ls "https://api.github.com/repos/FranzKafkaYu/x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     if [[ "$last_version" == "$version" ]]; then
-      echo -e " ${green}当前 x-ui 已是最新版本,无需更新...${plain}"
+      echo -e " 当前 x-ui 已是${yellow}最新版本${plain},无需进行更新..."
     else
-      echo -e " ${green}当前 x-ui 最新版本为${last_version},请手动更新...${plain}"
+      echo -e " 当前 x-ui 版本:${green}${version}${plain},检测到最新版本:${yellow}${last_version}${plain},请手动进行更新..."
     fi
+    before_show_menu
 }
 
 show_status() {
