@@ -146,17 +146,17 @@ check_status() {
 
 check_version() {
     version=$(/usr/local/x-ui/x-ui setting -show | grep 'version' | awk '{print $2}' | cut -d ":" -f1)
-    echo -e " x-ui 运行版本:${green}$version${plain}"
+    echo -e " x-ui 当前版本:${green}$version${plain}"
 }
 
 check_xray_version() {
     version=$(/usr/local/x-ui/bin/xray-linux-amd64 version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
-    echo -e " xray 运行版本:${green}$version${plain}"
+    echo -e " Xray 运行版本:${green}$version${plain}"
 }
 
 show_status() {
-    check_version
     check_xray_version
+    check_version
     check_status
     case $? in
     0)
@@ -360,7 +360,7 @@ show_menu() {
   ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui
 ———————————————— "
     show_status
-    echo && read -p "请输入选择 [0-9]: " num
+    echo && read -p "请输入选择 [0-10]: " num
 
     case "${num}" in
         0) exit 0
