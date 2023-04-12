@@ -150,8 +150,8 @@ check_version() {
 }
 
 check_xray_version() {
-    version=$(/usr/local/x-ui/bin/xray-linux-amd64 version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
-    echo -e " Xray 运行版本:${green}$version${plain}"
+    xray_version=$(/usr/local/x-ui/bin/xray-linux-amd64 version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
+    echo -e " Xray 运行版本:${green}$xray_version${plain}"
 }
 
 show_status() {
