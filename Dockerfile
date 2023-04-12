@@ -12,7 +12,7 @@ RUN apk update && \
     tar -zxvf /usr/local/x-ui-linux-${GET_ARCH}.tar.gz -C /usr/local && \
     rm /usr/local/x-ui-linux-${GET_ARCH}.tar.gz /usr/local/x-ui/x-ui.service /usr/local/x-ui/x-ui.sh && \
     chmod +x /usr/local/x-ui/ /etc/service/x-ui/run /usr/bin/x-ui && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 WORKDIR /usr/local/x-ui
 CMD ["runsvdir", "-P", "/etc/service"]
