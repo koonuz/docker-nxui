@@ -160,7 +160,7 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e " x-ui 进程状态:${green}已运行${plain}"
+        echo -e " x-ui 进程状态:${yellow}已运行${plain}"
         ;;
     1)
         echo -e " x-ui 进程状态:${red}未运行${plain}"
