@@ -154,6 +154,15 @@ check_xray_version() {
     echo -e " Xray 运行版本:${green}$xray_version${plain}"
 }
 
+check_update() {
+    last_version=$(curl -Ls "https://api.github.com/repos/FranzKafkaYu/x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    if [[ "$last_version" == "$version" ]]; then
+      echo -e " ${green}当前 x-ui 已是最新版本,无需更新...${plain}"
+    else
+      echo -e " ${green}当前 x-ui 最新版本为${last_version},请手动更新...${plain}"
+    fi
+}
+
 show_status() {
     check_xray_version
     check_version
@@ -358,9 +367,11 @@ show_menu() {
   ${green}8.${plain} 更新 x-ui geo数据
   ${green}9.${plain} 管理 x-ui 定时任务
   ${green}10.${plain} 迁移 v2-ui 账号数据至 x-ui
+———————————————— 
+  ${green}11.${plain} 检查 x-ui 最新版本
 ———————————————— "
     show_status
-    echo && read -p "请输入选择 [0-10]: " num
+    echo && read -p "请输入选择 [0-11]: " num
 
     case "${num}" in
         0) exit 0
@@ -385,7 +396,9 @@ show_menu() {
         ;;
         10) migrate_v2_ui
         ;;
-        *) echo -e "${red}请输入正确的数字 [0-10]${plain}"
+        11) check_update
+        ;;
+        *) echo -e "${red}请输入正确的数字 [0-11]${plain}"
         ;;
     esac
 }
