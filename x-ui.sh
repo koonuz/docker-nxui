@@ -149,8 +149,14 @@ check_version() {
     echo -e " x-ui 运行版本:${green}$version${plain}"
 }
 
+check_xray_version() {
+    version=$(/usr/local/x-ui/bin/xray-linux-amd64 version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
+    echo -e " xray 运行版本:${green}$version${plain}"
+}
+
 show_status() {
     check_version
+    check_xray_version
     check_status
     case $? in
     0)
@@ -160,25 +166,6 @@ show_status() {
         echo -e " x-ui 进程状态:${red}未运行${plain}"
         ;;
     esac
-    show_xray_status
-}
-
-check_xray_status() {
-    count=$(ps -ef | grep "xray-linux" | grep -v "grep" | wc -l)
-    if [[ count -ne 0 ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-show_xray_status() {
-    check_xray_status
-    if [[ $? == 0 ]]; then
-        echo -e " xray 服务状态:${green}已运行${plain}"
-    else
-        echo -e " xray 服务状态:${red}未运行${plain}"
-    fi
 }
 
 set_port() {
