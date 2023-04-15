@@ -156,20 +156,20 @@ check_bbr() {
 show_bbr() {
     check_bbr
     if [[ $? == 0 ]]; then
-        echo -e " BBR 加速算法: ${green}已开启${plain}"
+        echo -e "  BBR 加速算法: ${green}已开启${plain}"
     else
-        echo -e " BBR 加速算法: ${red}未开启${plain}"
+        echo -e "  BBR 加速算法: ${red}未开启${plain}"
     fi
 }
 
 check_version() {
     version=$(/usr/local/x-ui/x-ui setting -show | grep 'version' | awk '{print $2}' | cut -d ":" -f1)
-    echo -e " x-ui 当前版本:${green}$version${plain}"
+    echo -e " x-ui 当前版本: ${green}$version${plain}"
 }
 
 check_xray_version() {
     xray_version=$(/usr/local/x-ui/bin/xray-linux-amd64 version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
-    echo -e " Xray 运行版本:${green}$xray_version${plain}"
+    echo -e " Xray 运行版本: ${green}$xray_version${plain}"
 }
 
 check_update() {
@@ -177,7 +177,7 @@ check_update() {
     if [[ "$last_version" == "$version" ]]; then
       echo -e " 当前 x-ui 已是${yellow}最新版本${plain}，无需进行更新..."
     else
-      echo -e " 当前 x-ui 版本为：${green}${version}${plain}，检测到最新版本为：${yellow}${last_version}${plain}，请手动进行更新..."
+      echo -e " 当前 x-ui 版本为: ${green}${version}${plain}，检测到最新版本为: ${yellow}${last_version}${plain}，请手动进行更新..."
     fi
     before_show_menu
 }
@@ -188,10 +188,10 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e " x-ui 进程状态：${green}已运行${plain}"
+        echo -e " x-ui 进程状态: ${green}已运行${plain}"
         ;;
     1)
-        echo -e " x-ui 进程状态：${red}未运行${plain}"
+        echo -e " x-ui 进程状态: ${red}未运行${plain}"
         ;;
     esac
     show_bbr
