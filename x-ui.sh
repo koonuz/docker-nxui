@@ -144,6 +144,24 @@ check_status() {
     fi
 }
 
+check_bbr() {
+    count=$(lsmod | grep bbr | wc -l)
+    if [[ count -ne 0 ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+show_bbr() {
+    check_bbr
+    if [[ $? == 0 ]]; then
+        echo -e "BBR 加速状态: ${green}已开启${plain}"
+    else
+        echo -e "BBR 加速状态: ${red}未开启${plain}"
+    fi
+}
+
 check_version() {
     version=$(/usr/local/x-ui/x-ui setting -show | grep 'version' | awk '{print $2}' | cut -d ":" -f1)
     echo -e " x-ui 当前版本:${green}$version${plain}"
@@ -176,6 +194,7 @@ show_status() {
         echo -e " x-ui 进程状态：${red}未运行${plain}"
         ;;
     esac
+    show_bbr
 }
 
 set_port() {
