@@ -156,9 +156,9 @@ check_bbr() {
 show_bbr() {
     check_bbr
     if [[ $? == 0 ]]; then
-        echo -e "  BBR 加速算法: ${green}已开启${plain}"
+        echo -e " BBR  加速算法: ${green}已开启${plain}"
     else
-        echo -e "  BBR 加速算法: ${red}未开启${plain}"
+        echo -e " BBR  加速算法: ${red}未开启${plain}"
     fi
 }
 
