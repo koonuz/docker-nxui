@@ -15,4 +15,4 @@ RUN apk update && \
     rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 WORKDIR /usr/local/x-ui
-CMD ["runsvdir", "-P", "/etc/service", "log:/var/log"]
+CMD ["runsvdir", "-P", "/etc/service"]
