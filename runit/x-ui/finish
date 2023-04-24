@@ -1,2 +1,2 @@
 #!/bin/sh
-pkill -9 xray
+pkill xray
