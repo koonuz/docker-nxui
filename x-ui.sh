@@ -5,6 +5,8 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
+GET_ARCH='amd64'
+
 #consts for log check and clear,unit:M
 declare -r DEFAULT_LOG_FILE_DELETE_TRIGGER=35
 
@@ -168,7 +170,7 @@ check_version() {
 }
 
 check_xray_version() {
-    xray_version=$(/usr/local/x-ui/bin/xray-linux-amd64 version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
+    xray_version=$(/usr/local/x-ui/bin/xray-linux-${GET_ARCH} version | grep 'Xray' | awk '{print $2}' | cut -d "(" -f1)
     echo -e " Xray 运行版本: ${green}$xray_version${plain}"
 }
 
